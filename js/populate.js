@@ -35,8 +35,8 @@ xmlhttp.onreadystatechange = function() {
     RESULTS = JSON.parse(this.responseText);
     
 	// initialize carousel offsets to 0
-	MAT_OFFS = new Array(RESULTS.images.length);
-	for(var i = 0; i < RESULTS.images.length; i++){
+	MAT_OFFS = new Array(RESULTS.matrix.length);
+	for(var i = 0; i < RESULTS.matrix.length; i++){
 		MAT_OFFS[i] = new Array(2);
 		MAT_OFFS[i][0] = 0;
 		MAT_OFFS[i][1] = 0;
@@ -204,10 +204,11 @@ function load(){
 
 // scrolls the carousel when chevrons are clicked
 function scrollCar(resNum, carIdx, amount){
-	MAT_OFFS[VT_OFFS + resNum][carIdx] += amount;
-	MAT_OFFS[VT_OFFS + resNum][carIdx] = 
-		(MAT_OFFS[VT_OFFS + resNum][carIdx] + RESULTS.matrix[VT_OFFS + resNum].length)
-		% RESULTS.matrix[VT_OFFS + resNum].length;
+	let resIdx = (VT_OFFS + resNum) % MAT_OFFS.length;
+	MAT_OFFS[resIdx][carIdx] += amount;
+	MAT_OFFS[resIdx][carIdx] = 
+		(MAT_OFFS[resIdx][carIdx] + RESULTS.matrix[resIdx].length)
+		% RESULTS.matrix[resIdx].length;
 	load();
 }
 

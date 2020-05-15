@@ -1,8 +1,6 @@
 body{
 	background-color: #fed;
 	
-	padding: 50px 10px;
-	
 	overflow: scroll;
 }
 
@@ -125,6 +123,10 @@ body{
 
 .scroll-up, .scroll-down{
 	width: 100px;
+}
+
+.scroll-up, .scroll-down, .scroll-left, .scroll-right{
+	border: 1px solid black;
 }
 
 .query-box {
