@@ -176,7 +176,7 @@ function load(){
 			// create/add check box
 			let r_chk = document.createElement("img");
 			r_chk.classList.add("check");
-			r_chk.src = (RESULTS.labels[i] == RESULTS.labels[imgIdx])
+			r_chk.src = (RESULTS.labels[resIdx] == RESULTS.labels[imgIdx])
 				? "img/check-small.png" : "img/x-mark-32.png";
 			r_box.appendChild(r_chk);
 			
