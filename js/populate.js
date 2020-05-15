@@ -21,14 +21,36 @@ const CLIPPING_LENGTH_HZ = 3;
 // contains the JS object fetched from the JSON file
 var RESULTS;
 
+// Offset of results strips
+var VT_OFFS = 0;
 
+// Matrix containing offset values for all carousels
+var MAT_OFFS = [];
 
+// send request for JSON file & parse
 var xmlhttp = new XMLHttpRequest();
 // once a response has been received
 xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     RESULTS = JSON.parse(this.responseText);
-    console.log(RESULTS.dir);
+    
+	// initialize carousel offsets to 0
+	MAT_OFFS = new Array(RESULTS.images.length);
+	for(var i = 0; i < RESULTS.images.length; i++){
+		MAT_OFFS[i] = new Array(2);
+		MAT_OFFS[i][0] = 0;
+		MAT_OFFS[i][1] = 0;
+	}
+	
+	load();
+  }
+};
+xmlhttp.open("GET", "js/results/ap-results.json", true);
+xmlhttp.send();
+
+// loads initial data into document
+function load(){
+	document.getElementById("main-content").innerHTML = '';
 	
 	// load data for the first CLIPPING_LENGTH_VT images
 	for(var i = 0; i < CLIPPING_LENGTH_VT; i++){
@@ -43,13 +65,13 @@ xmlhttp.onreadystatechange = function() {
 		// create/add query image to box
 		let q_img = document.createElement("img");
 		q_img.classList.add("query-img");
-		q_img.src = RESULTS.dir + "/" + RESULTS.images[i];
+		q_img.src = RESULTS.dir + "/" + RESULTS.images[VT_OFFS + i];
 		q_box.appendChild(q_img);
 		
 		// create query caption
 		let q_cap = document.createElement("div");
 		q_cap.classList.add("query-caption");
-		var txt = document.createTextNode(RESULTS.images[i]);
+		var txt = document.createTextNode(RESULTS.images[VT_OFFS + i]);
 		q_cap.appendChild(txt);
 		q_box.appendChild(q_cap);
 		res.appendChild(q_box);
@@ -65,6 +87,7 @@ xmlhttp.onreadystatechange = function() {
 		let l_chev = document.createElement("img");
 		l_chev.classList.add("scroll-left");
 		l_chev.src = "img/chevron-left.png";
+		l_chev.setAttribute("onclick", "scrollCar("+i+",0,-1)");
 		br_box.appendChild(l_chev);
 		
 		// create/add result image wrapper
@@ -77,24 +100,27 @@ xmlhttp.onreadystatechange = function() {
 			let r_box = document.createElement("div");
 			r_box.classList.add("query-box");
 			
+			let rank = (MAT_OFFS[VT_OFFS + i][0] + j) % RESULTS.matrix[VT_OFFS + i].length;
+			let imgIdx = RESULTS.matrix[VT_OFFS + i][rank];
+			
 			// create/add result img
 			let r_img = document.createElement("img");
 			r_img.classList.add("query-img"); 
-			r_img.src = RESULTS.dir + "/" + RESULTS.images[RESULTS.matrix[i][j]];
+			r_img.src = RESULTS.dir + "/" + RESULTS.images[imgIdx];
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
 			
 			// create/add check box
 			let r_chk = document.createElement("img");
 			r_chk.classList.add("check");
-			r_chk.src = (RESULTS.labels[i] == RESULTS.labels[RESULTS.matrix[i][j]]) 
+			r_chk.src = (RESULTS.labels[VT_OFFS + i] == RESULTS.labels[imgIdx]) 
 				? "img/check-small.png" : "img/x-mark-32.png";
 			r_box.appendChild(r_chk);
-			
+		
 			// create result caption
 			let r_cap = document.createElement("div");
 			r_cap.classList.add("query-caption");
-			let r_txt = document.createTextNode("(" + (j+1) + ") " + RESULTS.images[RESULTS.matrix[i][j]]);
+			let r_txt = document.createTextNode("(" + (rank + 1) + ") " + RESULTS.images[imgIdx]);
 			r_cap.appendChild(r_txt);
 			r_box.appendChild(r_cap);
 			ri_wrap.appendChild(r_box);
@@ -147,7 +173,7 @@ xmlhttp.onreadystatechange = function() {
 			// create result caption
 			let r_cap = document.createElement("div");
 			r_cap.classList.add("query-caption");
-			let r_txt = document.createTextNode("(" + (RESULTS.matrix[i].length - j) + ") " + RESULTS.images[RESULTS.matrix[i][j]]);
+			let r_txt = document.createTextNode("(" + (RESULTS.matrix[i].length - j) + ") " + RESULTS.images[RESULTS.matrix[i][RESULTS.matrix[i].length - (j+1)]]);
 			r_cap.appendChild(r_txt);
 			r_box.appendChild(r_cap);
 			ri_wrap2.appendChild(r_box);
@@ -162,7 +188,13 @@ xmlhttp.onreadystatechange = function() {
 		
 		document.getElementById("main-content").appendChild(res);
 	}
-  }
-};
-xmlhttp.open("GET", "js/results/ap-results.json", true);
-xmlhttp.send();
+}
+
+// scrolls the carousel when chevrons are clicked
+function scrollCar(resNum, carIdx, amount){
+	MAT_OFFS[VT_OFFS + resNum][carIdx] += amount;
+	MAT_OFFS[VT_OFFS + resNum][carIdx] = 
+		(MAT_OFFS[VT_OFFS + resNum][carIdx] + RESULTS.matrix[VT_OFFS + resNum].length)
+		% RESULTS.matrix[VT_OFFS + resNum].length;
+	load();
+}
