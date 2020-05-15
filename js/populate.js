@@ -131,6 +131,7 @@ function load(){
 		let r_chev = document.createElement("img");
 		r_chev.classList.add("scroll-right");
 		r_chev.src = "img/chevron-right.png";
+		r_chev.setAttribute("onclick", "scrollCar("+i+",0,1)");
 		br_box.appendChild(r_chev);
 		
 		// add best results box
@@ -144,7 +145,9 @@ function load(){
 		wr_box.classList.add("worst-result-box");
 		
 		// create/add left chev
-		wr_box.appendChild(l_chev.cloneNode(true));
+		let l_chev2 = l_chev.cloneNode(true);
+		l_chev2.setAttribute("onclick", "scrollCar("+i+",1,-1)");
+		wr_box.appendChild(l_chev2);
 		
 		// create/add result image wrapper
 		let ri_wrap2 = document.createElement("span");
@@ -156,24 +159,29 @@ function load(){
 			let r_box = document.createElement("div");
 			r_box.classList.add("query-box");
 			
+			let rank = (2 * RESULTS.matrix[VT_OFFS + i].length 
+				- (MAT_OFFS[VT_OFFS + i][1] + j + 1))
+				% RESULTS.matrix[VT_OFFS + i].length;
+			let imgIdx = RESULTS.matrix[VT_OFFS + i][rank];
+			
 			// create/add result img
 			let r_img = document.createElement("img");
 			r_img.classList.add("query-img"); 
-			r_img.src = RESULTS.dir + "/" + RESULTS.images[RESULTS.matrix[i][RESULTS.matrix[i].length - (j+1)]];
+			r_img.src = RESULTS.dir + "/" + RESULTS.images[imgIdx];
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
 			
 			// create/add check box
 			let r_chk = document.createElement("img");
 			r_chk.classList.add("check");
-			r_chk.src = (RESULTS.labels[i] == RESULTS.labels[RESULTS.matrix[i][RESULTS.matrix[i].length - (j+1)]])
+			r_chk.src = (RESULTS.labels[i] == RESULTS.labels[imgIdx])
 				? "img/check-small.png" : "img/x-mark-32.png";
 			r_box.appendChild(r_chk);
 			
 			// create result caption
 			let r_cap = document.createElement("div");
 			r_cap.classList.add("query-caption");
-			let r_txt = document.createTextNode("(" + (RESULTS.matrix[i].length - j) + ") " + RESULTS.images[RESULTS.matrix[i][RESULTS.matrix[i].length - (j+1)]]);
+			let r_txt = document.createTextNode("(" + (rank + 1) + ") " + RESULTS.images[imgIdx]);
 			r_cap.appendChild(r_txt);
 			r_box.appendChild(r_cap);
 			ri_wrap2.appendChild(r_box);
@@ -181,7 +189,9 @@ function load(){
 		wr_box.appendChild(ri_wrap2);
 		
 		// create/add right chev
-		wr_box.appendChild(r_chev.cloneNode(true));
+		let r_chev2 = r_chev.cloneNode(true);
+		r_chev2.setAttribute("onclick", "scrollCar("+i+",1,1)");
+		wr_box.appendChild(r_chev2);
 		
 		// add best results box
 		res.appendChild(wr_box);
