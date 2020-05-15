@@ -31,7 +31,7 @@ xmlhttp.onreadystatechange = function() {
     console.log(RESULTS.dir);
 	
 	// load data for the first CLIPPING_LENGTH_VT images
-	for(var i = 1; i < CLIPPING_LENGTH_VT; i++){
+	for(var i = 0; i < CLIPPING_LENGTH_VT; i++){
 		// create result strip
 		let res = document.createElement("div");
 		res.classList.add("result-display");
@@ -133,21 +133,21 @@ xmlhttp.onreadystatechange = function() {
 			// create/add result img
 			let r_img = document.createElement("img");
 			r_img.classList.add("query-img"); 
-			r_img.src = RESULTS.dir + "/" + RESULTS.images[RESULTS.matrix[i][j]];
+			r_img.src = RESULTS.dir + "/" + RESULTS.images[RESULTS.matrix[i][RESULTS.matrix[i].length - (j+1)]];
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
 			
 			// create/add check box
 			let r_chk = document.createElement("img");
 			r_chk.classList.add("check");
-			r_chk.src = (RESULTS.labels[i] == RESULTS.labels[RESULTS.matrix[i][j]]) 
+			r_chk.src = (RESULTS.labels[i] == RESULTS.labels[RESULTS.matrix[i][RESULTS.matrix[i].length - (j+1)]])
 				? "img/check-small.png" : "img/x-mark-32.png";
 			r_box.appendChild(r_chk);
 			
 			// create result caption
 			let r_cap = document.createElement("div");
 			r_cap.classList.add("query-caption");
-			let r_txt = document.createTextNode("(" + (j+1) + ") " + RESULTS.images[RESULTS.matrix[i][j]]);
+			let r_txt = document.createTextNode("(" + (RESULTS.matrix[i].length - j) + ") " + RESULTS.images[RESULTS.matrix[i][j]]);
 			r_cap.appendChild(r_txt);
 			r_box.appendChild(r_cap);
 			ri_wrap2.appendChild(r_box);

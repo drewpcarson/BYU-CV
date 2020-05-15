@@ -11,19 +11,19 @@ body{
 	height: 430px;
 	min-width: 2000px;
 	
-	background-color: #000;
+	background-color: #0000;
 	
 	padding: 10px;
 }
 
 .result-display {
 	position: relative;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	
 	width: 100%;
 	height: 100px;
 	
-	background-color: #333;
+	background-color: #3330;
 }
 
 .result-display:last-child {
@@ -76,7 +76,7 @@ body{
 	height: 100%;
 	min-width: 100px;
 	
-	background-color: green;
+	background-color: #0f00;
 }
 
 .worst-result-box {
@@ -90,7 +90,7 @@ body{
 	height: 100%;
 	min-width: 100px;
 	
-	background-color: red;
+	background-color: #f000;
 }
 
 .scroll-left { 
