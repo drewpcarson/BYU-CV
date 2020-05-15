@@ -54,6 +54,8 @@ function load(){
 	
 	// load data for the first CLIPPING_LENGTH_VT images
 	for(var i = 0; i < CLIPPING_LENGTH_VT; i++){
+		let resIdx = (VT_OFFS + i) % RESULTS.matrix.length;
+		
 		// create result strip
 		let res = document.createElement("div");
 		res.classList.add("result-display");
@@ -65,13 +67,13 @@ function load(){
 		// create/add query image to box
 		let q_img = document.createElement("img");
 		q_img.classList.add("query-img");
-		q_img.src = RESULTS.dir + "/" + RESULTS.images[VT_OFFS + i];
+		q_img.src = RESULTS.dir + "/" + RESULTS.images[resIdx];
 		q_box.appendChild(q_img);
 		
 		// create query caption
 		let q_cap = document.createElement("div");
 		q_cap.classList.add("query-caption");
-		var txt = document.createTextNode(RESULTS.images[VT_OFFS + i]);
+		var txt = document.createTextNode("(" + (resIdx + 1) + ") " + RESULTS.images[resIdx]);
 		q_cap.appendChild(txt);
 		q_box.appendChild(q_cap);
 		res.appendChild(q_box);
@@ -100,8 +102,8 @@ function load(){
 			let r_box = document.createElement("div");
 			r_box.classList.add("query-box");
 			
-			let rank = (MAT_OFFS[VT_OFFS + i][0] + j) % RESULTS.matrix[VT_OFFS + i].length;
-			let imgIdx = RESULTS.matrix[VT_OFFS + i][rank];
+			let rank = (MAT_OFFS[resIdx][0] + j) % RESULTS.matrix[resIdx].length;
+			let imgIdx = RESULTS.matrix[resIdx][rank];
 			
 			// create/add result img
 			let r_img = document.createElement("img");
@@ -113,7 +115,7 @@ function load(){
 			// create/add check box
 			let r_chk = document.createElement("img");
 			r_chk.classList.add("check");
-			r_chk.src = (RESULTS.labels[VT_OFFS + i] == RESULTS.labels[imgIdx]) 
+			r_chk.src = (RESULTS.labels[resIdx] == RESULTS.labels[imgIdx]) 
 				? "img/check-small.png" : "img/x-mark-32.png";
 			r_box.appendChild(r_chk);
 		
@@ -159,10 +161,10 @@ function load(){
 			let r_box = document.createElement("div");
 			r_box.classList.add("query-box");
 			
-			let rank = (2 * RESULTS.matrix[VT_OFFS + i].length 
-				- (MAT_OFFS[VT_OFFS + i][1] + j + 1))
-				% RESULTS.matrix[VT_OFFS + i].length;
-			let imgIdx = RESULTS.matrix[VT_OFFS + i][rank];
+			let rank = (2 * RESULTS.matrix[resIdx].length 
+				- (MAT_OFFS[resIdx][1] + j + 1))
+				% RESULTS.matrix[resIdx].length;
+			let imgIdx = RESULTS.matrix[resIdx][rank];
 			
 			// create/add result img
 			let r_img = document.createElement("img");
@@ -206,5 +208,11 @@ function scrollCar(resNum, carIdx, amount){
 	MAT_OFFS[VT_OFFS + resNum][carIdx] = 
 		(MAT_OFFS[VT_OFFS + resNum][carIdx] + RESULTS.matrix[VT_OFFS + resNum].length)
 		% RESULTS.matrix[VT_OFFS + resNum].length;
+	load();
+}
+
+// scrolls vertically
+function scrollVt(amount){
+	VT_OFFS = (RESULTS.matrix.length + VT_OFFS + amount) % RESULTS.matrix.length;
 	load();
 }
