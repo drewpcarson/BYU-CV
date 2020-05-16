@@ -15,7 +15,7 @@
 
 
 // define how many images to load at once
-const CLIPPING_LENGTH_VT = 4;
+const CLIPPING_LENGTH_VT = 3;
 const CLIPPING_LENGTH_HZ = 3;
 
 // contains the JS object fetched from the JSON file
@@ -52,6 +52,15 @@ xmlhttp.send();
 function load(){
 	document.getElementById("main-content").innerHTML = '';
 	
+	// load active image
+	let actIdx = VT_OFFS % RESULTS.matrix.length;
+	var activeImg = document.getElementById("active-img");
+	activeImg.src = RESULTS.dir + RESULTS.images[actIdx];
+	var glass = document.getElementsByClassName("img-magnifier-glass")[0];
+	if(glass != undefined) 
+		glass.parentNode.removeChild(glass);
+	magnify("active-img", 2.0);
+	
 	// load data for the first CLIPPING_LENGTH_VT images
 	for(var i = 0; i < CLIPPING_LENGTH_VT; i++){
 		let resIdx = (VT_OFFS + i) % RESULTS.matrix.length;
@@ -73,8 +82,11 @@ function load(){
 		// create query caption
 		let q_cap = document.createElement("div");
 		q_cap.classList.add("query-caption");
-		var txt = document.createTextNode("(" + (resIdx + 1) + ") " + RESULTS.images[resIdx]);
-		q_cap.appendChild(txt);
+		q_cap.innerHTML = 
+				"(" + (resIdx + 1) + ") " 
+				+ RESULTS.images[resIdx]
+				+ "<br/>AP:" + RESULTS.ap[resIdx].toPrecision(3)
+				+ "/Lb:" + RESULTS.labels[resIdx];
 		q_box.appendChild(q_cap);
 		res.appendChild(q_box);
 		
@@ -162,7 +174,7 @@ function load(){
 		for(var j = 0; j < CLIPPING_LENGTH_HZ; j++){
 			// create/add query box
 			let r_box = document.createElement("div");
-			r_box.classList.add("query-box");
+			r_box.classList.add("result-box");
 			
 			let rank = (2 * RESULTS.matrix[resIdx].length 
 				- (MAT_OFFS[resIdx][1] + j + 1))
@@ -171,7 +183,7 @@ function load(){
 			
 			// create/add result img
 			let r_img = document.createElement("img");
-			r_img.classList.add("query-img"); 
+			r_img.classList.add("result-img"); 
 			r_img.src = RESULTS.dir + RESULTS.images[imgIdx];
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
