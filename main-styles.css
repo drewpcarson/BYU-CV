@@ -6,8 +6,7 @@ body{
 
 #main-content {
 	position: relative;
-	height: 430px;
-	min-width: 2000px;
+	min-width: 1000px;
 	
 	background-color: #0000;
 	
@@ -74,7 +73,7 @@ body{
 	height: 100%;
 	min-width: 100px;
 	
-	background-color: #0f00;
+	background-color: #000;
 }
 
 .worst-result-box {
@@ -88,7 +87,7 @@ body{
 	height: 100%;
 	min-width: 100px;
 	
-	background-color: #f000;
+	background-color: #000;
 }
 
 .scroll-left { 

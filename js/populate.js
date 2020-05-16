@@ -16,7 +16,7 @@
 
 // define how many images to load at once
 const CLIPPING_LENGTH_VT = 4;
-const CLIPPING_LENGTH_HZ = 3;
+const CLIPPING_LENGTH_HZ = 4;
 
 // contains the JS object fetched from the JSON file
 var RESULTS;
@@ -67,7 +67,7 @@ function load(){
 		// create/add query image to box
 		let q_img = document.createElement("img");
 		q_img.classList.add("query-img");
-		q_img.src = RESULTS.dir + "/" + RESULTS.images[resIdx];
+		q_img.src = RESULTS.dir + RESULTS.images[resIdx];
 		q_box.appendChild(q_img);
 		
 		// create query caption
@@ -108,7 +108,7 @@ function load(){
 			// create/add result img
 			let r_img = document.createElement("img");
 			r_img.classList.add("query-img"); 
-			r_img.src = RESULTS.dir + "/" + RESULTS.images[imgIdx];
+			r_img.src = RESULTS.dir + RESULTS.images[imgIdx];
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
 			
@@ -169,7 +169,7 @@ function load(){
 			// create/add result img
 			let r_img = document.createElement("img");
 			r_img.classList.add("query-img"); 
-			r_img.src = RESULTS.dir + "/" + RESULTS.images[imgIdx];
+			r_img.src = RESULTS.dir + RESULTS.images[imgIdx];
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
 			
