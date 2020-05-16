@@ -130,8 +130,12 @@ function load(){
 			let r_img = document.createElement("img");
 			r_img.classList.add("result-img"); 
 			r_img.src = RESULTS.dir + RESULTS.images[imgIdx];
+			var att = document.createAttribute("index");
+			att.value = imgIdx;
+			r_box.setAttributeNode(att);
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
+			r_box.setAttribute("onclick", "navegateTo(this)");
 			
 			// create/add check box
 			let r_chk = document.createElement("img");
@@ -194,8 +198,12 @@ function load(){
 			let r_img = document.createElement("img");
 			r_img.classList.add("result-img"); 
 			r_img.src = RESULTS.dir + RESULTS.images[imgIdx];
+			var att = document.createAttribute("index");
+			att.value = imgIdx;
+			r_box.setAttributeNode(att);
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
+			r_box.setAttribute("onclick", "navegateTo(this)");
 			
 			// create/add check box
 			let r_chk = document.createElement("img");
@@ -262,5 +270,11 @@ function refine(){
 		CLIPPING_LENGTH_HZ = Math.min(targetCols, MAX_CLIPPING_HZ);
 	}
 	
+	load();
+}
+
+function navegateTo(el){
+	var targetIdx = parseInt(el.getAttribute("index"));
+	VT_OFFS = targetIdx;
 	load();
 }
