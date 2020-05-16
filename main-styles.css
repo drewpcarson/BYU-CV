@@ -1,3 +1,4 @@
+
 body{
 	background-color: #fed;
 	
@@ -15,7 +16,7 @@ body{
 
 .result-display {
 	position: relative;
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 	
 	width: 100%;
 	height: 100px;
@@ -27,26 +28,32 @@ body{
 	margin-bottom: 0;
 }
 
-
-.query-box{
+.query-box, .result-box{
 	position: relative;
 	top:0;
 	left:0;
-	margin: 0 20px 0 0;
+	margin: 0 10px 0 0;
 	
 	float: left;
 	
 	height: 100%;
 	min-width: 20px;
+	max-width: 100px;
 	
 	background-color: white;
 }
 
-.query-img {
+.result-box:last-child{
+	margin: 0;
+}
+
+.query-img, .result-img {
 	position: relative;
 	bottom: 0;
 	
-	height: 80%;
+	height: 100%;
+	
+	z-index: 0;
 }
 
 .query-caption{
@@ -54,6 +61,25 @@ body{
 	
 	width: 100%;
 	text-align: left;
+	
+	transition: all 100ms ease-in-out;
+	
+	z-index: 1;
+}
+
+.hover-caption{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	display: none;
+	
+	width: 100%;
+	
+	background-color: #0009;
+	color: white;
+	font-weight: 500;
+	
+	transition: all 500ms ease-in-out 200ms;
 }
 
 .check{
