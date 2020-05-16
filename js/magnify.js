@@ -1,6 +1,6 @@
 /*
 
-	Author: W3Schools 
+	Author: W3Schools & Drew Carson
 	Project: Connor CV Web Portal
 	File: magnify.js
 	

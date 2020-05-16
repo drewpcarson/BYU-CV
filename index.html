@@ -28,12 +28,27 @@
 						<img id="active-img"/>
 					</div>
 					<div id="active-cap-wrap"> 
+						<h3 id="active-id"></h3>
+						<p id="active-ap"></p>
+						<p id="active-lb"></p> 
 					</div>
 				</div>
 			</td>
 			<td>
+				<!-- Vertical Scrolling Arrows --> 
 				<img class="scroll-up" src="img/chevron-up.png" onclick="scrollVt(-1)"/>
 				<img class="scroll-down" src="img/chevron-down.png"  onclick="scrollVt(1)"/>
+				
+				<!-- Result Display Options -->
+				<label for="goto">Go to:</label>
+				<input type="text" id="goto" name="goto" size="4" placeholder="index#">
+				<label for="rows">Rows:</label>
+				<input type="text" id="rows" name="rows" size="2" placeholder="">
+				<label for="cols">Cols:</label>
+				<input type="text" id="cols" name="cols" size="2" placeholder="">
+				<input type="submit" value="Submit" onclick="refine()">
+				
+				<!-- Result Display --> 
 				<div id="main-content"> 
 					<div class="result-display">
 						<div class="query-box">

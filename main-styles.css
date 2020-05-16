@@ -18,10 +18,10 @@ td{
 	
 	margin: 0 20px 0 0;
 	
-	background-color: green;
+	background-color: #0f00;
 }
 
-#active-img-wrap{
+#active-img-wrap {
 	width: 300px;
 	height: 300px;
 	
@@ -40,6 +40,15 @@ td{
     image-rendering: pixelated; /* Chrome */
     image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
     -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+}
+
+#active-id, #active-ap, #active-lb {
+	width: 100%;
+	
+	text-align: center;
+	
+	line-height: 1.0;
+	margin: 10px 0;
 }
 
 .img-magnifier-container {
@@ -66,7 +75,7 @@ td{
 
 #main-content {
 	position: relative;
-	min-width: 1000px;
+	min-width: 2000px;
 	
 	background-color: #0000;
 	

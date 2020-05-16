@@ -15,8 +15,11 @@
 
 
 // define how many images to load at once
-const CLIPPING_LENGTH_VT = 3;
-const CLIPPING_LENGTH_HZ = 3;
+var CLIPPING_LENGTH_VT = 3;
+var CLIPPING_LENGTH_HZ = 3;
+
+const MAX_CLIPPING_VT = 25;
+const MAX_CLIPPING_HZ = 8;
 
 // contains the JS object fetched from the JSON file
 var RESULTS;
@@ -56,6 +59,12 @@ function load(){
 	let actIdx = VT_OFFS % RESULTS.matrix.length;
 	var activeImg = document.getElementById("active-img");
 	activeImg.src = RESULTS.dir + RESULTS.images[actIdx];
+	var activeID = document.getElementById("active-id");
+	activeID.innerHTML = RESULTS.images[actIdx];
+	var activeAP = document.getElementById("active-ap");
+	activeAP.innerHTML = "Avg. Precision: " + RESULTS.ap[actIdx].toPrecision(4);
+	var activeLb = document.getElementById("active-lb");
+	activeLb.innerHTML = "Label: " + RESULTS.labels[actIdx];
 	var glass = document.getElementsByClassName("img-magnifier-glass")[0];
 	if(glass != undefined) 
 		glass.parentNode.removeChild(glass);
@@ -233,5 +242,25 @@ function scrollCar(resNum, carIdx, amount){
 // scrolls vertically
 function scrollVt(amount){
 	VT_OFFS = (RESULTS.matrix.length + VT_OFFS + amount) % RESULTS.matrix.length;
+	load();
+}
+
+// refines search results
+function refine(){
+	var targetIdx = document.getElementById("goto").value;
+	if(targetIdx != ""){
+		VT_OFFS = (RESULTS.matrix.length + parseInt(targetIdx) - 1) % RESULTS.matrix.length;
+	}
+	
+	var targetRows = document.getElementById("rows").value;
+	if(targetRows != ""){
+		CLIPPING_LENGTH_VT = Math.min(targetRows, MAX_CLIPPING_VT);
+	}
+	
+	var targetCols = document.getElementById("cols").value; 
+	if(targetCols != ""){
+		CLIPPING_LENGTH_HZ = Math.min(targetCols, MAX_CLIPPING_HZ);
+	}
+	
 	load();
 }
