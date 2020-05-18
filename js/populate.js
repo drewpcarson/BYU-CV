@@ -15,7 +15,7 @@
 
 
 // define how many images to load at once
-var CLIPPING_LENGTH_VT = 3;
+var CLIPPING_LENGTH_VT = 4;
 var CLIPPING_LENGTH_HZ = 3;
 
 const MAX_CLIPPING_VT = 25;
@@ -29,6 +29,9 @@ var VT_OFFS = 0;
 
 // Matrix containing offset values for all carousels
 var MAT_OFFS = [];
+
+// Pinned Image filepath
+var PINNED_SRC = "";
 
 // send request for JSON file & parse
 var xmlhttp = new XMLHttpRequest();
@@ -46,6 +49,8 @@ xmlhttp.onreadystatechange = function() {
 	}
 	
 	load();
+	
+	pinIt(document.getElementsByClassName("query-box")[0]);
   }
 };
 xmlhttp.open("GET", "js/results/ap-results.json", true);
@@ -54,21 +59,6 @@ xmlhttp.send();
 // loads initial data into document
 function load(){
 	document.getElementById("main-content").innerHTML = '';
-	
-	// load active image
-	let actIdx = VT_OFFS % RESULTS.matrix.length;
-	var activeImg = document.getElementById("active-img");
-	activeImg.src = RESULTS.dir + RESULTS.images[actIdx];
-	var activeID = document.getElementById("active-id");
-	activeID.innerHTML = RESULTS.images[actIdx];
-	var activeAP = document.getElementById("active-ap");
-	activeAP.innerHTML = "Avg. Precision: " + RESULTS.ap[actIdx].toPrecision(4);
-	var activeLb = document.getElementById("active-lb");
-	activeLb.innerHTML = "Label: " + RESULTS.labels[actIdx];
-	var glass = document.getElementsByClassName("img-magnifier-glass")[0];
-	if(glass != undefined) 
-		glass.parentNode.removeChild(glass);
-	magnify("active-img", 2.0);
 	
 	// load data for the first CLIPPING_LENGTH_VT images
 	for(var i = 0; i < CLIPPING_LENGTH_VT; i++){
@@ -81,11 +71,16 @@ function load(){
 		// create/add query box
 		let q_box= document.createElement("div");
 		q_box.classList.add("query-box");
+		var att = document.createAttribute("index");
+		att.value = resIdx;
+		q_box.setAttributeNode(att);
 		
 		// create/add query image to box
 		let q_img = document.createElement("img");
 		q_img.classList.add("query-img");
 		q_img.src = RESULTS.dir + RESULTS.images[resIdx];
+		if(RESULTS.images[resIdx] == PINNED_SRC) 
+			q_img.classList.add("pinned-img");
 		q_box.appendChild(q_img);
 		
 		// create query caption
@@ -97,6 +92,8 @@ function load(){
 				+ "<br/>AP:" + RESULTS.ap[resIdx].toPrecision(3)
 				+ "/Lb:" + RESULTS.labels[resIdx];
 		q_box.appendChild(q_cap);
+		q_box.setAttribute("onclick", "pinIt(this)");
+		q_box.setAttribute("onmouseenter", "compare(this)");
 		res.appendChild(q_box);
 		
 		/////////////////////////////////////
@@ -130,12 +127,15 @@ function load(){
 			let r_img = document.createElement("img");
 			r_img.classList.add("result-img"); 
 			r_img.src = RESULTS.dir + RESULTS.images[imgIdx];
+			if(RESULTS.images[imgIdx] == PINNED_SRC) 
+				r_img.classList.add("pinned-img");
 			var att = document.createAttribute("index");
 			att.value = imgIdx;
 			r_box.setAttributeNode(att);
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
-			r_box.setAttribute("onclick", "navegateTo(this)");
+			r_box.setAttribute("onclick", "pinIt(this)");
+			r_box.setAttribute("onmouseenter", "compare(this)");
 			
 			// create/add check box
 			let r_chk = document.createElement("img");
@@ -198,12 +198,15 @@ function load(){
 			let r_img = document.createElement("img");
 			r_img.classList.add("result-img"); 
 			r_img.src = RESULTS.dir + RESULTS.images[imgIdx];
+			if(RESULTS.images[imgIdx] == PINNED_SRC) 
+				r_img.classList.add("pinned-img");
 			var att = document.createAttribute("index");
 			att.value = imgIdx;
 			r_box.setAttributeNode(att);
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
-			r_box.setAttribute("onclick", "navegateTo(this)");
+			r_box.setAttribute("onclick", "pinIt(this)");
+			r_box.setAttribute("onmouseenter", "compare(this)");
 			
 			// create/add check box
 			let r_chk = document.createElement("img");
@@ -285,8 +288,46 @@ function refine(){
 	load();
 }
 
-function navegateTo(el){
+function pinIt(el){
+	// load active image
+	var targetIdx = parseInt(el.getAttribute("index"));
+	var activeImg = document.getElementById("active-img");
+	activeImg.src = RESULTS.dir + RESULTS.images[targetIdx];
+	var activeID = document.getElementById("active-id");
+	//activeID.classList.add("query-link");
+	activeID.setAttribute("onclick", "navigateTo(this)");
+	var index = document.createAttribute("index");
+	index.value = targetIdx;
+	activeID.setAttributeNode(index);
+	activeID.innerHTML = 
+		"(" + (parseInt(index.value) + 1) + ") "
+		+ RESULTS.images[targetIdx]
+		+ "<span class='query-link'>Query >></span>";
+	//var glass = document.getElementsByClassName("img-magnifier-glass")[0];
+	//if(glass != undefined) 
+	//	glass.parentNode.removeChild(glass);
+	//magnify("active-img", 2.0);
+	
+	PINNED_SRC = RESULTS.images[targetIdx];
+	load();
+}
+
+function compare(el){
+	// load active image
+	var targetIdx = parseInt(el.getAttribute("index"));
+	var hoverImg = document.getElementById("hover-img");
+	hoverImg.src =  RESULTS.dir + RESULTS.images[targetIdx];
+}
+
+function navigateTo(el){
 	var targetIdx = parseInt(el.getAttribute("index"));
 	VT_OFFS = targetIdx;
 	load();
 }
+
+/*function toggleOverlay(){
+	var hoverImg = document.getElementById("hover-img-wrap");
+	var activeImg = document.getElementById("active-img-wrap");
+	
+}
+*/

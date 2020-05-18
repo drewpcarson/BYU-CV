@@ -24,13 +24,20 @@
 		<table><tr>
 			<td>
 				<div id="active-box">
-					<div id="active-img-wrap" class="image-magnifier-container">
+					<div id="active-cap-wrap"> 
+						<span id="active-id"></span>
+						<!--
+						<span id="overlay-form">
+							<label for="overlay">Overlay</label>
+							<input type="checkbox" id="overlay" name="overlay" value="Overlay" onclick="toggleOverlay()">
+						</span>
+						-->
+					</div>
+					<div id="active-img-wrap">
 						<img id="active-img"/>
 					</div>
-					<div id="active-cap-wrap"> 
-						<h3 id="active-id"></h3>
-						<p id="active-ap"></p>
-						<p id="active-lb"></p> 
+					<div id="hover-img-wrap">
+						<img id="hover-img"/>
 					</div>
 				</div>
 			</td>
@@ -114,7 +121,9 @@
 		</tr></table>
 		
 		<script src="js/populate.js"></script>
+		<!--
 		<script src="js/magnify.js"></script>
+		-->
 	</body> 
 
 </html>

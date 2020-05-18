@@ -13,24 +13,25 @@ td{
 #active-box{
 	position: relative;
 	float: left;
-	width: 300px;
-	height: 400px;
+	width: 280px;
 	
-	margin: 0 20px 0 0;
+	margin: 0 20px;
 	
 	background-color: #0f00;
 }
 
 #active-img-wrap {
-	width: 300px;
-	height: 300px;
+	width: 280px;
+	height: 280px;
+	
+	margin: 10px 0 6px 0;
 	
 	background-color: #ccc;
 	
 	outline: 3px solid #0f0;
 }
 
-#active-img-wrap img { 
+#active-img-wrap img, #hover-img-wrap img { 
     width: 100%;
 	
 	image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
@@ -42,13 +43,46 @@ td{
     -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
 }
 
+#hover-img-wrap {
+	/*position: absolute;
+	top: 0;
+	left: 0;
+	*/
+	width: 280px;
+	height: 280px;
+
+	outline: 3px solid #ff0;
+}
+
 #active-id, #active-ap, #active-lb {
+	display: inline-block;
 	width: 100%;
-	
-	text-align: center;
+		
+	text-align: left;
 	
 	line-height: 1.0;
-	margin: 10px 0;
+	margin: 0;
+}
+
+.query-link{
+	color: #00f;
+	
+	font-weight: 300;
+	
+	float: right;
+}
+
+.query-link:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#overlay-form{
+	float: right;
+}
+
+.pinned-img{
+	outline: 3px solid #0f0;
 }
 
 .img-magnifier-container {
@@ -79,7 +113,7 @@ td{
 	
 	background-color: #0000;
 	
-	padding: 10px;
+	padding: 10px 0 0 0;
 }
 
 .result-display {
@@ -90,10 +124,6 @@ td{
 	height: 100px;
 	
 	background-color: #3330;
-}
-
-.result-display:first-child .query-box{
-	outline: 3px solid #0f0;
 }
 
 .result-display:last-child {
@@ -132,8 +162,8 @@ td{
 	z-index: 0;
 }
 
-.result-img:hover{
-	outline: 3px solid #0f0;
+.query-box:hover, .result-box:hover{
+	outline: 3px solid #ff0;
 	cursor: pointer;
 }
 
@@ -232,7 +262,7 @@ td{
 }
 
 .scroll-up, .scroll-down, .scroll-left, .scroll-right{
-	border: 1px solid black;
+	outline: 1px solid black;
 }
 
 .query-box {
