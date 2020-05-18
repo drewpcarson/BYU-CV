@@ -262,11 +262,23 @@ function refine(){
 	
 	var targetRows = document.getElementById("rows").value;
 	if(targetRows != ""){
+		if(targetRows < 1){
+			alert("Invalid number of rows. Showing 1.");
+			targetRows = 1;
+		}
+		if(targetRows > MAX_CLIPPING_VT)
+			alert("Desired rows exceeds maximum of " + MAX_CLIPPING_VT);
 		CLIPPING_LENGTH_VT = Math.min(targetRows, MAX_CLIPPING_VT);
 	}
 	
 	var targetCols = document.getElementById("cols").value; 
 	if(targetCols != ""){
+		if(targetCols < 1){
+			alert("Invalid number of columns. Showing 1.");
+			targetCols = 1;
+		}
+		if(targetCols > MAX_CLIPPING_HZ)
+			alert("Desired columns exceeds maximum of " + MAX_CLIPPING_HZ);
 		CLIPPING_LENGTH_HZ = Math.min(targetCols, MAX_CLIPPING_HZ);
 	}
 	

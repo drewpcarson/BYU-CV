@@ -132,7 +132,7 @@ td{
 	z-index: 0;
 }
 
-.query-img:hover, .result-img:hover{
+.result-img:hover{
 	outline: 3px solid #0f0;
 	cursor: pointer;
 }
