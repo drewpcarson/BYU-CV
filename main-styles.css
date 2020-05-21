@@ -11,8 +11,9 @@ td{
 }
 
 #active-box{
-	position: relative;
-	float: left;
+	position: fixed;
+	top: 13px;
+	left: 20px;
 	width: 280px;
 	
 	margin: 0 20px;
@@ -30,6 +31,8 @@ td{
 	
 	outline: 3px solid #0f0;
 }
+
+
 
 #active-img-wrap img, #hover-img-wrap img { 
     width: 100%;
@@ -54,7 +57,7 @@ td{
 	outline: 3px solid #ff0;
 }
 
-#active-id, #active-ap, #active-lb {
+#active-id {
 	display: inline-block;
 	width: 100%;
 		
@@ -85,31 +88,9 @@ td{
 	outline: 3px solid #0f0;
 }
 
-.img-magnifier-container {
-	position:relative;
-}
-
-.img-magnifier-glass {
-	position: absolute;
-	border: 3px solid #0f0;
-	border-radius: 50%;
-	cursor: none;
-	/*Set the size of the magnifier glass:*/
-	width: 100px;
-	height: 100px;
-
-	image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
-	image-rendering: -moz-crisp-edges;          /* Firefox                        */
-	image-rendering: -o-crisp-edges;            /* Opera                          */
-	image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
-	image-rendering: pixelated; /* Chrome */
-	image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
-	-ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
-}
-
 #main-content {
+	
 	position: relative;
-	min-width: 2000px;
 	
 	background-color: #0000;
 	
@@ -117,11 +98,13 @@ td{
 }
 
 .result-display {
+	display: flex;
+	
 	position: relative;
 	margin-bottom: 40px;
 	
 	width: 100%;
-	height: 100px;
+	height: 150px;
 	
 	background-color: #3330;
 }
@@ -138,9 +121,8 @@ td{
 	
 	float: left;
 	
-	height: 100%;
-	min-width: 20px;
-	max-width: 100px;
+	height: 100px;
+	width: 100px;
 	
 	background-color: white;
 }
@@ -199,70 +181,54 @@ td{
 	margin-right: 5px;
 }
 
-.best-result-box {
+.result-carousel {
+	display: flex;
+	
 	position: relative;
 	top:0;
 	left: 0;
-	margin: 0 20px 0 0;
-	
+	margin: 0 0 20px 0;
 	float: left;
 	
-	height: 100%;
+	height: 100px;
 	min-width: 100px;
+	padding: 10px 10px 40px 0;
 	
-	background-color: #000;
+	background-color: #fff;
+	border-radius: 3px;
+	box-shadow: inset 0px 0px 3px #000;
 }
 
-.worst-result-box {
-	position: relative;
-	top:0;
-	left:0;
-	margin: 0 20px 0 0;
-	
+.icon {
 	float: left;
+	height: 16px;
 	
-	height: 100%;
-	min-width: 100px;
-	
-	background-color: #000;
+	margin: 4px 2px;
 }
 
-.scroll-left { 
-	position: relative;
-	top:0;
-	left:0;
-	margin: 0 10px 0 0;
-	
+.scroll-wrap{
 	float: left;
-	
-	height: 100%;
-	min-width: 10px;
-	
-	/*background-color: #ccc;
-	*/
 }
 
-.scroll-right { 
-	position: relative;
-	top:0;
-	right:0;
-	margin: 0 0 0 10px;
+.scroll-normal-wrap, .scroll-match-wrap{
+	display: flex;
 	
-	float: right;
-	
-	height: 100%;
-	min-width: 10px;
-	
-	/*background-color: #ccc;
-	*/
+	margin: 0 10px;
 }
 
+.scroll-left, .scroll-right, 
 .scroll-up, .scroll-down{
-	width: 100px;
+	border-radius: 3px;
 }
 
-.scroll-up, .scroll-down, .scroll-left, .scroll-right{
-	outline: 1px solid black;
+.scroll-left:hover, .scroll-right:hover,
+.scroll-up:hover, .scroll-down:hover{
+	background-color: #ccc;
+	cursor: pointer;
+}
+
+.scroll-up + .scroll-down{
+	margin: 4px 8px 4px 4px;
 }
 
 .query-box {
@@ -274,8 +240,11 @@ td{
 
 	float: left;
 	
+}
+
+.result-img-wrap{
+	display: flex;
 	height: 100%;
-	
 }
 
 .result-img-wrap .query-box:last-child {

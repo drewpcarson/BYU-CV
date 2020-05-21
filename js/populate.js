@@ -15,8 +15,8 @@
 
 
 // define how many images to load at once
-var CLIPPING_LENGTH_VT = 4;
-var CLIPPING_LENGTH_HZ = 3;
+var CLIPPING_LENGTH_VT = 3;
+var CLIPPING_LENGTH_HZ = 6;
 
 const MAX_CLIPPING_VT = 25;
 const MAX_CLIPPING_HZ = 8;
@@ -101,14 +101,54 @@ function load(){
 		/////////////////////////////////////
 		
 		let br_box = document.createElement("div");
-		br_box.classList.add("best-result-box");
+		br_box.classList.add("result-carousel");
 		
-		// create/add left chev
-		let l_chev = document.createElement("img");
-		l_chev.classList.add("scroll-left");
-		l_chev.src = "img/chevron-left.png";
-		l_chev.setAttribute("onclick", "scrollCar("+i+",0,-1)");
-		br_box.appendChild(l_chev);
+		// create/add scroll wrap
+		let scrollWrap = document.createElement("div");
+		scrollWrap.classList.add("scroll-wrap");
+		
+		// create/add normal scroll
+		let normScroll = document.createElement("div");
+		normScroll.classList.add("scroll-normal-wrap");
+		let l_arr = document.createElement("img");
+		l_arr.src = "img/arrow-left.png";
+		l_arr.classList.add("icon");
+		l_arr.classList.add("scroll-left");
+		l_arr.setAttribute("onclick", "scrollCar("+i+",0,-1)");
+		normScroll.appendChild(l_arr);
+		let photoI = document.createElement("img");
+		photoI.src = "img/pic.png";
+		photoI.classList.add("icon");
+		normScroll.appendChild(photoI);
+		let r_arr = document.createElement("img");
+		r_arr.src = "img/arrow-right.png";
+		r_arr.classList.add("icon");
+		r_arr.classList.add("scroll-right");
+		r_arr.setAttribute("onclick", "scrollCar("+i+",0,1)");
+		normScroll.appendChild(r_arr);
+		scrollWrap.appendChild(normScroll);
+		
+		// create/add match scroll
+		let matchScroll = document.createElement("div");
+		matchScroll.classList.add("scroll-match-wrap");
+		l_arr = document.createElement("img");
+		l_arr.src = "img/arrow-left.png";
+		l_arr.classList.add("icon");
+		l_arr.classList.add("scroll-left");
+		l_arr.setAttribute("onclick", "prevMatch(this)");
+		matchScroll.appendChild(l_arr);
+		photoI = document.createElement("img");
+		photoI.src = "img/check-small.png";
+		photoI.classList.add("icon");
+		matchScroll.appendChild(photoI);
+		r_arr = document.createElement("img");
+		r_arr.src = "img/arrow-right.png";
+		r_arr.classList.add("icon");
+		r_arr.classList.add("scroll-right");
+		r_arr.setAttribute("onclick", "nextMatch(this)");
+		matchScroll.appendChild(r_arr);
+		scrollWrap.appendChild(matchScroll);
+		br_box.appendChild(scrollWrap);
 		
 		// create/add result image wrapper
 		let ri_wrap = document.createElement("span");
@@ -157,86 +197,11 @@ function load(){
 		}
 		br_box.appendChild(ri_wrap);
 		
-		// create/add right chev
-		let r_chev = document.createElement("img");
-		r_chev.classList.add("scroll-right");
-		r_chev.src = "img/chevron-right.png";
-		r_chev.setAttribute("onclick", "scrollCar("+i+",0,1)");
-		br_box.appendChild(r_chev);
-		
 		// add best results box
 		res.appendChild(br_box);
 		
-		/////////////////////////////////////
-		///       Worst Results Box       ///
-		/////////////////////////////////////
-		
-		let wr_box = document.createElement("div");
-		wr_box.classList.add("worst-result-box");
-		
-		// create/add left chev
-		let l_chev2 = l_chev.cloneNode(true);
-		l_chev2.setAttribute("onclick", "scrollCar("+i+",1,-1)");
-		wr_box.appendChild(l_chev2);
-		
-		// create/add result image wrapper
-		let ri_wrap2 = document.createElement("span");
-		ri_wrap2.classList.add("result-img-wrap");
-		
-		// add result images 
-		for(var j = 0; j < CLIPPING_LENGTH_HZ; j++){
-			// create/add query box
-			let r_box = document.createElement("div");
-			r_box.classList.add("result-box");
-			
-			let rank = (2 * RESULTS.matrix[resIdx].length 
-				- (MAT_OFFS[resIdx][1] + j + 1))
-				% RESULTS.matrix[resIdx].length;
-			let imgIdx = RESULTS.matrix[resIdx][rank];
-			
-			// create/add result img
-			let r_img = document.createElement("img");
-			r_img.classList.add("result-img"); 
-			r_img.src = RESULTS.dir + RESULTS.images[imgIdx];
-			if(RESULTS.images[imgIdx] == PINNED_SRC) 
-				r_img.classList.add("pinned-img");
-			var att = document.createAttribute("index");
-			att.value = imgIdx;
-			r_box.setAttributeNode(att);
-			r_box.appendChild(r_img);
-			r_box.appendChild(document.createElement("br"));
-			r_box.setAttribute("onclick", "pinIt(this)");
-			r_box.setAttribute("onmouseenter", "compare(this)");
-			
-			// create/add check box
-			let r_chk = document.createElement("img");
-			r_chk.classList.add("check");
-			r_chk.src = (RESULTS.labels[resIdx] == RESULTS.labels[imgIdx])
-				? "img/check-small.png" : "img/x-mark-32.png";
-			r_box.appendChild(r_chk);
-			
-			// create result caption
-			let r_cap = document.createElement("div");
-			r_cap.classList.add("query-caption");
-			r_cap.innerHTML = 
-				"(" + (rank + 1) + ") " 
-				+ RESULTS.images[imgIdx]
-				+ "<br/>AP:" + RESULTS.ap[imgIdx].toPrecision(3)
-				+ "/Lb:" + RESULTS.labels[imgIdx];
-			r_box.appendChild(r_cap);
-			ri_wrap2.appendChild(r_box);
-		}
-		wr_box.appendChild(ri_wrap2);
-		
-		// create/add right chev
-		let r_chev2 = r_chev.cloneNode(true);
-		r_chev2.setAttribute("onclick", "scrollCar("+i+",1,1)");
-		wr_box.appendChild(r_chev2);
-		
-		// add best results box
-		res.appendChild(wr_box);
-		
 		document.getElementById("main-content").appendChild(res);
+		document.getElementById("main-content").appendChild(document.createElement("br"));
 	}
 }
 
@@ -325,9 +290,40 @@ function navigateTo(el){
 	load();
 }
 
-/*function toggleOverlay(){
-	var hoverImg = document.getElementById("hover-img-wrap");
-	var activeImg = document.getElementById("active-img-wrap");
+function prevMatch(el){
+	var query = el.closest(".result-display").getElementsByClassName("query-box")[0];
+	var qIdx = parseInt(query.getAttribute("index"));
+	var labelToMatch = RESULTS.labels[qIdx];
+
+	// should loop a maximum of once through the whole matrix
+	var offs = (MAT_OFFS[qIdx][0] + RESULTS.matrix[qIdx].length - 1) 
+		% RESULTS.matrix[qIdx].length;
+	var rIdx = RESULTS.matrix[qIdx][offs];
+	while(RESULTS.labels[rIdx] != labelToMatch){
+		offs = (offs + RESULTS.matrix[qIdx].length - 1) 
+			% RESULTS.matrix[qIdx].length;
+		rIdx = RESULTS.matrix[qIdx][offs];
+	}
 	
+	MAT_OFFS[qIdx][0] = offs;
+	load();
 }
-*/
+
+function nextMatch(el){
+	var query = el.closest(".result-display").getElementsByClassName("query-box")[0];
+	var qIdx = parseInt(query.getAttribute("index"));
+	var labelToMatch = RESULTS.labels[qIdx];
+
+	// should loop a maximum of once through the whole matrix
+	var offs = (MAT_OFFS[qIdx][0] + RESULTS.matrix[qIdx].length + 1) 
+		% RESULTS.matrix[qIdx].length;
+	var rIdx = RESULTS.matrix[qIdx][offs];
+	while(RESULTS.labels[rIdx] != labelToMatch){
+		offs = (offs + RESULTS.matrix[qIdx].length + 1) 
+			% RESULTS.matrix[qIdx].length;
+		rIdx = RESULTS.matrix[qIdx][offs];
+	}
+	
+	MAT_OFFS[qIdx][0] = offs;
+	load();
+}

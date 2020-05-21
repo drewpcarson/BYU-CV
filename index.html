@@ -22,7 +22,7 @@
 			main box for containing results
 		-->
 		<table><tr>
-			<td>
+			<td style="min-width: 350px;">
 				<div id="active-box">
 					<div id="active-cap-wrap"> 
 						<span id="active-id"></span>
@@ -43,8 +43,8 @@
 			</td>
 			<td>
 				<!-- Vertical Scrolling Arrows --> 
-				<img class="scroll-up" src="img/chevron-up.png" onclick="scrollVt(-1)"/>
-				<img class="scroll-down" src="img/chevron-down.png"  onclick="scrollVt(1)"/>
+				<img class="icon scroll-up" src="img/arrow-up.png" onclick="scrollVt(-1)"/>
+				<img class="icon scroll-down" src="img/arrow-down.png"  onclick="scrollVt(1)"/>
 				
 				<!-- Result Display Options -->
 				<label for="goto">Go to:</label>
@@ -62,9 +62,20 @@
 							<img class="query-img" src="../../multiview/datasets/amur-tigers/reid/train-square/000384.jpg">
 							<div class="query-caption">(1) 000384.jpg</div>
 						</div>
-						<div class="best-result-box">
-							<img class="scroll-left" src="img/chevron-left.png" onclick="scrollCar(0,0,-1)">
-							<span class="result-img-wrap">
+						<div class="result-carousel">
+							<div class="scroll-wrap">
+								<div class="scroll-normal-wrap">
+									<img class="icon scroll-left" src="img/arrow-left.png" onclick="scrollCar(0,0,-1)"/>
+									<img class="icon" src="img/pic.png" />
+									<img class="icon scroll-right" src="img/arrow-right.png" onclick="scrollCar(0,0,1)"/>
+								</div>
+								<div class="scroll-match-wrap">
+									<img class="icon scroll-left" src="img/arrow-left.png" onclick="scrollCar(0,0,-1)"/>
+									<img class="icon" src="img/check-small.png" />
+									<img class="icon scroll-right" src="img/arrow-right.png" onclick="scrollCar(0,0,1)"/>
+								</div>
+							</div>
+							<div class="result-img-wrap">
 								<div class="result-box">
 									<img class="query-img" src="../../multiview/datasets/amur-tigers/reid/train-square/001703.jpg"><br>
 									<div class="query-caption"><img class="check" src="img/check-small.png"/>(2) 001703.jpg</div>
@@ -85,34 +96,7 @@
 									<img class="check" src="img/check-small.png">
 									<div class="query-caption">(5) 002558.jpg</div>
 								</div>
-							</span>
-							<img class="scroll-right" src="img/chevron-right.png" onclick="scrollCar(0,0,1)">
-						</div>
-						<div class="worst-result-box">
-							<img class="scroll-left" src="img/chevron-left.png" onclick="scrollCar(0,1,-1)">
-							<span class="result-img-wrap">
-								<div class="result-box">
-									<img class="query-img" src="../../multiview/datasets/amur-tigers/reid/train-square/004165.jpg"><br>
-									<img class="check" src="img/x-mark-32.png">
-									<div class="query-caption">(919) 004165.jpg</div>
-								</div>
-								<div class="result-box">
-									<img class="query-img" src="../../multiview/datasets/amur-tigers/reid/train-square/003266.jpg"><br>
-									<img class="check" src="img/x-mark-32.png">
-									<div class="query-caption">(918) 003266.jpg</div>
-								</div>
-								<div class="result-box">
-									<img class="query-img" src="../../multiview/datasets/amur-tigers/reid/train-square/000630.jpg"><br>
-									<img class="check" src="img/x-mark-32.png">
-									<div class="query-caption">(917) 000630.jpg</div>
-								</div>
-								<div class="result-box">
-									<img class="query-img" src="../../multiview/datasets/amur-tigers/reid/train-square/000085.jpg"><br>
-									<img class="check" src="img/x-mark-32.png">
-									<div class="query-caption">(916) 000085.jpg</div>
-								</div>
-							</span>
-							<img class="scroll-right" src="img/chevron-right.png" onclick="scrollCar(0,1,1)">
+							</div>
 						</div>
 					</div>
 				</div><br/><br/>
