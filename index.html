@@ -22,7 +22,7 @@
 			main box for containing results
 		-->
 		<table><tr>
-			<td style="min-width: 350px;">
+			<td style="min-width: 330px">
 				<div id="active-box">
 					<div id="active-cap-wrap"> 
 						<span id="active-id"></span>
@@ -42,18 +42,21 @@
 				</div>
 			</td>
 			<td>
-				<!-- Vertical Scrolling Arrows --> 
-				<img class="icon scroll-up" src="img/arrow-up.png" onclick="scrollVt(-1)"/>
-				<img class="icon scroll-down" src="img/arrow-down.png"  onclick="scrollVt(1)"/>
-				
-				<!-- Result Display Options -->
-				<label for="goto">Go to:</label>
-				<input type="text" id="goto" name="goto" size="4" placeholder="index#">
-				<label for="rows">Rows:</label>
-				<input type="text" id="rows" name="rows" size="2" placeholder="">
-				<label for="cols">Cols:</label>
-				<input type="text" id="cols" name="cols" size="2" placeholder="">
-				<input type="submit" value="Submit" onclick="refine()">
+			
+				<div id="toolbar">
+					<!-- Vertical Scrolling Arrows --> 
+					<img class="icon scroll-up" src="img/arrow-up.png" onclick="scrollVt(-1)"/>
+					<img class="icon scroll-down" src="img/arrow-down.png"  onclick="scrollVt(1)"/>
+					
+					<!-- Result Display Options -->
+					<label for="goto">Go to:</label>
+					<input type="text" id="goto" name="goto" size="4" placeholder="index#">
+					<label for="rows">Rows:</label>
+					<input type="text" id="rows" name="rows" size="2" placeholder="">
+					<label for="cols">Cols:</label>
+					<input type="text" id="cols" name="cols" size="2" placeholder="">
+					<input type="submit" value="Submit" onclick="refine()">
+				</div>
 				
 				<!-- Result Display --> 
 				<div id="main-content"> 

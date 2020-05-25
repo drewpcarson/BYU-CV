@@ -19,13 +19,15 @@ var CLIPPING_LENGTH_VT = 3;
 var CLIPPING_LENGTH_HZ = 6;
 
 const MAX_CLIPPING_VT = 25;
-const MAX_CLIPPING_HZ = 8;
+const MAX_CLIPPING_HZ = 16;
 
 // contains the JS object fetched from the JSON file
 var RESULTS;
 
 // Offset of results strips
 var VT_OFFS = 0;
+var OFFS_STACK = [];
+OFFS_STACK[0] = 0;
 
 // Matrix containing offset values for all carousels
 var MAT_OFFS = [];
@@ -55,6 +57,22 @@ xmlhttp.onreadystatechange = function() {
 };
 xmlhttp.open("GET", "js/results/ap-results.json", true);
 xmlhttp.send();
+
+window.onscroll = function(e){
+	if ( window.pageXOffset > 0 ) {
+		document.getElementById("active-box").style.boxShadow = "20px 0 20px #fed";
+	}
+	else {
+		document.getElementById("active-box").style.boxShadow = "";
+	}
+	
+	if( window.pageYOffset > 0 ) {
+		document.getElementById("toolbar").style.boxShadow = "-10px 20px 20px #fed";
+	}
+	else{
+		document.getElementById("toolbar").style.boxShadow = "";
+	}
+}
 
 // loads initial data into document
 function load(){
@@ -271,15 +289,24 @@ function pinIt(el){
 	var activeImg = document.getElementById("active-img");
 	activeImg.src = RESULTS.dir + RESULTS.images[targetIdx];
 	var activeID = document.getElementById("active-id");
-	//activeID.classList.add("query-link");
-	activeID.setAttribute("onclick", "navigateTo(this)");
-	var index = document.createAttribute("index");
-	index.value = targetIdx;
-	activeID.setAttributeNode(index);
-	activeID.innerHTML = 
-		"(" + (parseInt(index.value) + 1) + ") "
-		+ RESULTS.images[targetIdx]
-		+ "<span class='query-link'>Query >></span>";
+	if(OFFS_STACK.length > 1){
+		activeID.innerHTML = 
+			"<span class='back-link' onclick='navigateBack(this)'"
+			+ "index='" + OFFS_STACK[OFFS_STACK.length - 2] + "'><< Back</span>"
+			+ "(" + (targetIdx + 1) + ") "
+			+ RESULTS.images[targetIdx]
+			+ "<span class='query-link' index='" + targetIdx 
+			+ "' onclick='navigateTo(this)'>Query >></span>";
+	}
+	else {
+		activeID.innerHTML = 
+			"<span class='back-link' onclick='navigateBack(this)'"
+			+ "index='" + OFFS_STACK[0] + "'><< Back</span>"
+			+ "(" + (targetIdx + 1) + ") "
+			+ RESULTS.images[targetIdx]
+			+ "<span class='query-link' index='" + targetIdx 
+			+ "' onclick='navigateTo(this)'>Query >></span>";
+	}
 	//var glass = document.getElementsByClassName("img-magnifier-glass")[0];
 	//if(glass != undefined) 
 	//	glass.parentNode.removeChild(glass);
@@ -299,7 +326,21 @@ function compare(el){
 function navigateTo(el){
 	var targetIdx = parseInt(el.getAttribute("index"));
 	VT_OFFS = targetIdx;
+	OFFS_STACK[OFFS_STACK.length] = targetIdx;
 	load();
+}
+
+function navigateBack(){
+	var targetIdx;
+	if(OFFS_STACK.length > 1){
+		targetIdx = OFFS_STACK[OFFS_STACK.length - 2]; 
+		OFFS_STACK = OFFS_STACK.splice(0, OFFS_STACK.length - 1);
+	}
+	else
+		targetIdx = OFFS_STACK[0];
+	VT_OFFS = targetIdx;
+	load();
+	
 }
 
 function prevMatch(el){
