@@ -106,15 +106,22 @@ function load(){
 		// create/add scroll wrap
 		let scrollWrap = document.createElement("div");
 		scrollWrap.classList.add("scroll-wrap");
+		br_box.appendChild(scrollWrap);
 		
 		// create/add normal scroll
 		let normScroll = document.createElement("div");
 		normScroll.classList.add("scroll-normal-wrap");
+		let r_button = document.createElement("img");
+		r_button.classList.add("icon");
+		r_button.classList.add("return-button");
+		r_button.setAttribute("onclick", "returnToStart(" + i + ")");
+		r_button.src = "img/double-arrow-left.png";
+		normScroll.appendChild(r_button);
 		let l_arr = document.createElement("img");
 		l_arr.src = "img/arrow-left.png";
 		l_arr.classList.add("icon");
 		l_arr.classList.add("scroll-left");
-		l_arr.setAttribute("onclick", "scrollCar("+i+",0,-1)");
+		l_arr.setAttribute("onclick", "scrollCar(" + i + ",0,-1)");
 		normScroll.appendChild(l_arr);
 		let photoI = document.createElement("img");
 		photoI.src = "img/pic.png";
@@ -124,13 +131,19 @@ function load(){
 		r_arr.src = "img/arrow-right.png";
 		r_arr.classList.add("icon");
 		r_arr.classList.add("scroll-right");
-		r_arr.setAttribute("onclick", "scrollCar("+i+",0,1)");
+		r_arr.setAttribute("onclick", "scrollCar(" + i + ",0,1)");
 		normScroll.appendChild(r_arr);
 		scrollWrap.appendChild(normScroll);
 		
 		// create/add match scroll
 		let matchScroll = document.createElement("div");
 		matchScroll.classList.add("scroll-match-wrap");
+		let rm_button = document.createElement("img");
+		rm_button.classList.add("icon");
+		rm_button.classList.add("return-button");
+		rm_button.setAttribute("onclick", "firstMatch(this, " + i + ")");
+		rm_button.src = "img/double-arrow-left.png";
+		matchScroll.appendChild(rm_button);
 		l_arr = document.createElement("img");
 		l_arr.src = "img/arrow-left.png";
 		l_arr.classList.add("icon");
@@ -148,7 +161,6 @@ function load(){
 		r_arr.setAttribute("onclick", "nextMatch(this)");
 		matchScroll.appendChild(r_arr);
 		scrollWrap.appendChild(matchScroll);
-		br_box.appendChild(scrollWrap);
 		
 		// create/add result image wrapper
 		let ri_wrap = document.createElement("span");
@@ -326,4 +338,19 @@ function nextMatch(el){
 	
 	MAT_OFFS[qIdx][0] = offs;
 	load();
+}
+
+function returnToStart(idx){
+	var query = VT_OFFS + idx;
+	MAT_OFFS[query][0] = 0;
+	load();
+}
+
+function firstMatch(el, idx){
+	returnToStart(idx);
+	var query = VT_OFFS + idx;
+	if(RESULTS.labels[query] != RESULTS.labels[RESULTS.matrix[query][0]])
+		nextMatch(el);
+	else
+		load();
 }

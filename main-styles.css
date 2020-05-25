@@ -101,7 +101,7 @@ td{
 	display: flex;
 	
 	position: relative;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 	
 	width: 100%;
 	height: 150px;
@@ -203,26 +203,29 @@ td{
 	float: left;
 	height: 16px;
 	
-	margin: 4px 2px;
+	margin: 4px 0px;
 }
 
 .scroll-wrap{
 	float: left;
 }
 
-.scroll-normal-wrap, .scroll-match-wrap{
+.scroll-normal-wrap, .scroll-match-wrap, 
+.return-scroll-wrap {
 	display: flex;
 	
 	margin: 0 10px;
 }
 
 .scroll-left, .scroll-right, 
-.scroll-up, .scroll-down{
+.scroll-up, .scroll-down,
+.return-button {
 	border-radius: 3px;
 }
 
 .scroll-left:hover, .scroll-right:hover,
-.scroll-up:hover, .scroll-down:hover{
+.scroll-up:hover, .scroll-down:hover, 
+.return-button:hover {
 	background-color: #ccc;
 	cursor: pointer;
 }
