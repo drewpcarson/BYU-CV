@@ -1,12 +1,25 @@
+:root{
+	--main-color: #fed;
+	--active-color: #0f0;
+	--hover-color: #ff0;
+	--button-hover-color: #ccc;
+	--link-color: #00f;
+	--std-transp: #0000;
+	
+	--std-margin-xs: 4px;
+	--std-margin-small: 10px;
+	--std-margin-med: 20px;
+	--std-margin-large: 40px;
+}
 
 body{
-	background-color: #fed;
+	background-color: var(--main-color);
 	
 	overflow: scroll;
 }
 
 table {
-	border-spacing: 2px;
+	border-spacing: 0px;
 }
 
 td{
@@ -16,12 +29,12 @@ td{
 }
 
 label {
-	margin: 0 5px;
+	margin: 0 var(--std-margin-xs);
 }
 
 input {
-	margin: 0 5px 0 0;
-	border-radius: 3px;
+	margin: 0 var(--std-margin-xs) 0 0;
+	border-radius: var(--std-margin-xs);
 	border: 1px solid black;
 }
 
@@ -32,23 +45,23 @@ input {
 	
 	width: 280px;
 	height: 100%;
-	padding: 13px 20px 0 40px;
+	padding: var(--std-margin-med) var(--std-margin-med) 0 var(--std-margin-large);
 	
-	background-color: #0f00;
+	background-color: var(--std-transp);
 	
 	z-index: 100;
-	background-color: #fed;
+	background-color: var(--main-color);
 }
 
 #active-img-wrap {
 	width: 280px;
 	height: 280px;
 	
-	margin: 10px 0 6px 0;
+	margin: var(--std-margin-med) 0 calc(2 * var(--std-margin-xs)) 0;
 	
 	background-color: #ccc;
 	
-	outline: 3px solid #0f0;
+	outline: var(--std-margin-xs) solid var(--active-color);
 }
 
 
@@ -73,7 +86,7 @@ input {
 	width: 280px;
 	height: 280px;
 
-	outline: 3px solid #ff0;
+	outline: var(--std-margin-xs) solid var(--hover-color);
 }
 
 #active-id {
@@ -87,7 +100,7 @@ input {
 }
 
 .back-link{
-	color: #00f;
+	color: var(--link-color);
 	
 	font-weight: 300;
 	
@@ -95,7 +108,7 @@ input {
 }
 
 .query-link{
-	color: #00f;
+	color: var(--link-color);
 	
 	font-weight: 300;
 	
@@ -112,7 +125,7 @@ input {
 }
 
 .pinned-img{
-	outline: 3px solid #0f0;
+	outline: var(--std-margin-xs) solid var(--active-color);
 }
 
 #toolbar {
@@ -120,24 +133,24 @@ input {
 	
 	position: fixed;
 	top: 0;
-	padding: 10px 0;
+	padding: var(--std-margin-med) 0 0 0;
 	
 	min-width: 500px;
 	width: 100%;
 	
 	z-index: 100;
-	background-color: #fed;
+	background-color: var(--main-color);
 }
 
 #main-content {
 	
 	position: relative;
-	top: 30px;
-	left: 3px;
+	top: calc(3 * var(--std-margin-med));
+	left: var(--std-margin-xs);
 	
 	background-color: #0000;
 	
-	padding: 10px 0 0 0;
+	padding: var(--std-margin-small) 0 0 0;
 }
 
 .result-display {
@@ -149,7 +162,7 @@ input {
 	width: 100%;
 	height: 150px;
 	
-	background-color: #3330;
+	background-color: var(--std-transp);
 }
 
 .result-display:last-child {
@@ -160,7 +173,7 @@ input {
 	position: relative;
 	top:0;
 	left:0;
-	margin: 0 10px 0 0;
+	margin: 0 var(--std-margin-small) 0 0;
 	
 	float: left;
 	
@@ -171,7 +184,7 @@ input {
 }
 
 .query-box:first-child{
-	margin: 0 20px 0 0;
+	margin: 0 var(--std-margin-med) 0 0;
 }
 
 .result-box:last-child{
@@ -188,7 +201,7 @@ input {
 }
 
 .query-box:hover, .result-box:hover{
-	outline: 3px solid #ff0;
+	outline: var(--std-margin-xs) solid var(--hover-color);
 	cursor: pointer;
 }
 
@@ -203,25 +216,10 @@ input {
 	z-index: 1;
 }
 
-.hover-caption{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	display: none;
-	
-	width: 100%;
-	
-	background-color: #0009;
-	color: white;
-	font-weight: 500;
-	
-	transition: all 500ms ease-in-out 200ms;
-}
-
 .check{
 	width: 16px;
 	float: left;
-	margin-right: 5px;
+	margin-right: var(--std-margin-xs);
 }
 
 .result-carousel {
@@ -230,15 +228,15 @@ input {
 	position: relative;
 	top:0;
 	left: 0;
-	margin: 0 0 20px 0;
+	margin: 0 0 var(--std-margin-med) 0;
 	float: left;
 	
 	height: 100px;
 	min-width: 100px;
-	padding: 10px 10px 40px 0;
+	padding: var(--std-margin-small) var(--std-margin-small) var(--std-margin-large) 0;
 	
 	background-color: #fff;
-	border-radius: 3px;
+	border-radius: var(--std-margin-xs);
 	box-shadow: inset 0px 0px 3px #000;
 }
 
@@ -246,7 +244,7 @@ input {
 	float: left;
 	height: 16px;
 	
-	margin: 4px 0px;
+	margin: var(--std-margin-xs) var(--std-margin-xs);
 }
 
 .scroll-wrap{
@@ -257,24 +255,24 @@ input {
 .return-scroll-wrap {
 	display: flex;
 	
-	margin: 0 10px;
+	margin: 0 var(--std-margin-small);
 }
 
 .scroll-left, .scroll-right, 
 .scroll-up, .scroll-down,
 .return-button {
-	border-radius: 3px;
+	border-radius: var(--std-margin-xs);
 }
 
 .scroll-left:hover, .scroll-right:hover,
 .scroll-up:hover, .scroll-down:hover, 
 .return-button:hover {
-	background-color: #ccc;
+	background-color: var(--button-hover-color);
 	cursor: pointer;
 }
 
 .scroll-up + .scroll-down{
-	margin: 4px 8px 4px 4px;
+	margin: var(--std-margin-xs) 8px var(--std-margin-xs) var(--std-margin-xs);
 }
 
 .query-box {
@@ -282,7 +280,7 @@ input {
 	position: relative;
 	top:0;
 	left:0;
-	margin: 0 10px 0 0;
+	margin: 0 var(--std-margin-small) 0 0;
 
 	float: left;
 	

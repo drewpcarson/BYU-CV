@@ -289,7 +289,7 @@ function pinIt(el){
 	var activeImg = document.getElementById("active-img");
 	activeImg.src = RESULTS.dir + RESULTS.images[targetIdx];
 	var activeID = document.getElementById("active-id");
-	if(OFFS_STACK.length > 1){
+	if(OFFS_STACK.length > 2){
 		activeID.innerHTML = 
 			"<span class='back-link' onclick='navigateBack(this)'"
 			+ "index='" + OFFS_STACK[OFFS_STACK.length - 2] + "'><< Back</span>"
@@ -330,7 +330,7 @@ function navigateTo(el){
 	load();
 }
 
-function navigateBack(){
+function navigateBack(el){
 	var targetIdx;
 	if(OFFS_STACK.length > 1){
 		targetIdx = OFFS_STACK[OFFS_STACK.length - 2]; 
@@ -339,8 +339,8 @@ function navigateBack(){
 	else
 		targetIdx = OFFS_STACK[0];
 	VT_OFFS = targetIdx;
+	pinIt(el);
 	load();
-	
 }
 
 function prevMatch(el){
