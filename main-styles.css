@@ -99,7 +99,7 @@ input {
 	margin: 0;
 }
 
-.back-link{
+#back-link{
 	color: var(--link-color);
 	
 	font-weight: 300;
@@ -107,7 +107,7 @@ input {
 	float: left; 
 }
 
-.query-link{
+#query-link{
 	color: var(--link-color);
 	
 	font-weight: 300;
@@ -115,7 +115,7 @@ input {
 	float: right;
 }
 
-.back-link:hover, .query-link:hover{
+#back-link:hover, #query-link:hover{
 	text-decoration: underline;
 	cursor: pointer;
 }

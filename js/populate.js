@@ -26,8 +26,9 @@ var RESULTS;
 
 // Offset of results strips
 var VT_OFFS = 0;
+var PREV_INDEX = 0;
 var OFFS_STACK = [];
-OFFS_STACK[0] = 0;
+
 
 // Matrix containing offset values for all carousels
 var MAT_OFFS = [];
@@ -289,24 +290,13 @@ function pinIt(el){
 	var activeImg = document.getElementById("active-img");
 	activeImg.src = RESULTS.dir + RESULTS.images[targetIdx];
 	var activeID = document.getElementById("active-id");
-	if(OFFS_STACK.length > 2){
-		activeID.innerHTML = 
-			"<span class='back-link' onclick='navigateBack(this)'"
-			+ "index='" + OFFS_STACK[OFFS_STACK.length - 2] + "'><< Back</span>"
-			+ "(" + (targetIdx + 1) + ") "
-			+ RESULTS.images[targetIdx]
-			+ "<span class='query-link' index='" + targetIdx 
-			+ "' onclick='navigateTo(this)'>Query >></span>";
-	}
-	else {
-		activeID.innerHTML = 
-			"<span class='back-link' onclick='navigateBack(this)'"
-			+ "index='" + OFFS_STACK[0] + "'><< Back</span>"
-			+ "(" + (targetIdx + 1) + ") "
-			+ RESULTS.images[targetIdx]
-			+ "<span class='query-link' index='" + targetIdx 
-			+ "' onclick='navigateTo(this)'>Query >></span>";
-	}
+	activeID.innerHTML = 
+		"<span id='back-link' onclick='navigateBack(this)'"
+		+ "index='" + PREV_INDEX + "'><< Back</span>"
+		+ "(" + (targetIdx + 1) + ") "
+		+ RESULTS.images[targetIdx]
+		+ "<span id='query-link' index='" + targetIdx 
+		+ "' onclick='navigateTo(this)'>Query >></span>";
 	//var glass = document.getElementsByClassName("img-magnifier-glass")[0];
 	//if(glass != undefined) 
 	//	glass.parentNode.removeChild(glass);
@@ -325,21 +315,25 @@ function compare(el){
 
 function navigateTo(el){
 	var targetIdx = parseInt(el.getAttribute("index"));
-	VT_OFFS = targetIdx;
-	OFFS_STACK[OFFS_STACK.length] = targetIdx;
-	load();
+	
+	// only update if it's a new query
+	if(targetIdx != PREV_INDEX){
+		VT_OFFS = targetIdx;
+		OFFS_STACK[OFFS_STACK.length] = PREV_INDEX;
+		document.getElementById("back-link").setAttribute("index", PREV_INDEX);
+		PREV_INDEX = targetIdx;
+		load();
+	}
 }
 
 function navigateBack(el){
 	var targetIdx;
-	if(OFFS_STACK.length > 1){
-		targetIdx = OFFS_STACK[OFFS_STACK.length - 2]; 
+	targetIdx = OFFS_STACK[OFFS_STACK.length - 1]; 
+	if(OFFS_STACK.length > 1)
 		OFFS_STACK = OFFS_STACK.splice(0, OFFS_STACK.length - 1);
-	}
-	else
-		targetIdx = OFFS_STACK[0];
-	VT_OFFS = targetIdx;
+	PREV_INDEX = OFFS_STACK[OFFS_STACK.length - 1];
 	pinIt(el);
+	VT_OFFS = targetIdx;
 	load();
 }
 
