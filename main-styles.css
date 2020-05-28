@@ -10,6 +10,7 @@
 	--std-margin-small: 10px;
 	--std-margin-med: 20px;
 	--std-margin-large: 40px;
+	--std-margin-xl: 60px;
 }
 
 body{
@@ -90,6 +91,8 @@ input {
 }
 
 #active-id {
+	position: relative;
+	
 	display: inline-block;
 	width: 100%;
 		
@@ -99,19 +102,18 @@ input {
 	margin: 0;
 }
 
-#back-link{
+#back-link, #query-link{
+	position: relative;
+	
 	color: var(--link-color);
-	
 	font-weight: 300;
-	
+}
+
+#back-link{
 	float: left; 
 }
 
-#query-link{
-	color: var(--link-color);
-	
-	font-weight: 300;
-	
+#query-link{	
 	float: right;
 }
 
@@ -138,7 +140,7 @@ input {
 	min-width: 500px;
 	width: 100%;
 	
-	z-index: 100;
+	z-index: 1;
 	background-color: var(--main-color);
 }
 
@@ -293,4 +295,29 @@ input {
 
 .result-img-wrap .query-box:last-child {
 	margin: 0;
+}
+
+*:hover > .tooltip{
+	visibility: visible;
+}
+
+.tooltip{
+	display: flex;
+	visibility: hidden;
+	
+	position: absolute;
+	top: var(--std-margin-med);
+	left: var(--std-margin-xl);
+	z-index: 1000;
+	
+	border-radius: var(--std-margin-xs);
+	padding: var(--std-margin-xs);
+	
+	width: 100px;
+	
+	background-color: #333;
+	color: white;
+	font-weight: 300;
+	font-size: 10pt;
+	text-align: center;
 }

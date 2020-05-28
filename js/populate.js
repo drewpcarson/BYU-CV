@@ -26,7 +26,7 @@ var RESULTS;
 
 // Offset of results strips
 var VT_OFFS = 0;
-var PREV_INDEX = 0;
+var CURR_INDEX = 0;
 var OFFS_STACK = [];
 
 
@@ -51,9 +51,8 @@ xmlhttp.onreadystatechange = function() {
 		MAT_OFFS[i][1] = 0;
 	}
 	
+	pinIt(0);
 	load();
-	
-	pinIt(document.getElementsByClassName("query-box")[0]);
   }
 };
 xmlhttp.open("GET", "js/results/ap-results.json", true);
@@ -90,9 +89,6 @@ function load(){
 		// create/add query box
 		let q_box= document.createElement("div");
 		q_box.classList.add("query-box");
-		var att = document.createAttribute("index");
-		att.value = resIdx;
-		q_box.setAttributeNode(att);
 		
 		// create/add query image to box
 		let q_img = document.createElement("img");
@@ -111,8 +107,8 @@ function load(){
 				+ "<br/>AP:" + RESULTS.ap[resIdx].toPrecision(3)
 				+ "/Lb:" + RESULTS.labels[resIdx];
 		q_box.appendChild(q_cap);
-		q_box.setAttribute("onclick", "pinIt(this)");
-		q_box.setAttribute("onmouseenter", "compare(this)");
+		q_box.setAttribute("onclick", "pinIt(" + resIdx + ")");
+		q_box.setAttribute("onmouseenter", "compare(" + resIdx + ")");
 		res.appendChild(q_box);
 		
 		/////////////////////////////////////
@@ -205,8 +201,8 @@ function load(){
 			r_box.setAttributeNode(att);
 			r_box.appendChild(r_img);
 			r_box.appendChild(document.createElement("br"));
-			r_box.setAttribute("onclick", "pinIt(this)");
-			r_box.setAttribute("onmouseenter", "compare(this)");
+			r_box.setAttribute("onclick", "pinIt(" + imgIdx + ")");
+			r_box.setAttribute("onmouseenter", "compare(" + imgIdx + ")");
 			
 			// create/add check box
 			let r_chk = document.createElement("img");
@@ -284,57 +280,67 @@ function refine(){
 	load();
 }
 
-function pinIt(el){
+function pinIt(idx){
 	// load active image
-	var targetIdx = parseInt(el.getAttribute("index"));
 	var activeImg = document.getElementById("active-img");
-	activeImg.src = RESULTS.dir + RESULTS.images[targetIdx];
-	var activeID = document.getElementById("active-id");
-	activeID.innerHTML = 
-		"<span id='back-link' onclick='navigateBack(this)'"
-		+ "index='" + PREV_INDEX + "'><< Back</span>"
-		+ "(" + (targetIdx + 1) + ") "
-		+ RESULTS.images[targetIdx]
-		+ "<span id='query-link' index='" + targetIdx 
-		+ "' onclick='navigateTo(this)'>Query >></span>";
-	//var glass = document.getElementsByClassName("img-magnifier-glass")[0];
-	//if(glass != undefined) 
-	//	glass.parentNode.removeChild(glass);
-	//magnify("active-img", 2.0);
+	activeImg.src = RESULTS.dir + RESULTS.images[idx];
+	PINNED_SRC = RESULTS.images[idx];
 	
-	PINNED_SRC = RESULTS.images[targetIdx];
+	// set active image title
+	var title = document.getElementById("active-img-title");
+	title.innerHTML = "(" + (idx + 1) + ") " 
+		+ RESULTS.images[idx];
+		
+	// connect query-link to active img's query
+	var queryLink = document.getElementById("query-link");
+	queryLink.setAttribute("onclick", "navigateTo(" + idx + ")");
+	
 	load();
 }
 
-function compare(el){
+function compare(idx){
 	// load active image
-	var targetIdx = parseInt(el.getAttribute("index"));
 	var hoverImg = document.getElementById("hover-img");
-	hoverImg.src =  RESULTS.dir + RESULTS.images[targetIdx];
+	hoverImg.src =  RESULTS.dir + RESULTS.images[idx];
 }
 
-function navigateTo(el){
-	var targetIdx = parseInt(el.getAttribute("index"));
-	
+function navigateTo(idx){
 	// only update if it's a new query
-	if(targetIdx != PREV_INDEX){
-		VT_OFFS = targetIdx;
-		OFFS_STACK[OFFS_STACK.length] = PREV_INDEX;
-		document.getElementById("back-link").setAttribute("index", PREV_INDEX);
-		PREV_INDEX = targetIdx;
+	if(idx != CURR_INDEX){
+		// set back-link to the current query (pre-navigation)
+		var backLink = document.getElementById("back-link");
+		OFFS_STACK[OFFS_STACK.length] = CURR_INDEX;
+		backLink.setAttribute("onclick", "navigateBack()");
+		
+		// navigate to the new index
+		VT_OFFS = idx;
+		CURR_INDEX = idx;
+		
+		// go to top of page
+		window.scrollBy(-window.pageXOffset, -window.pageYOffset);
+		
+		// reload results
 		load();
 	}
 }
 
-function navigateBack(el){
-	var targetIdx;
-	targetIdx = OFFS_STACK[OFFS_STACK.length - 1]; 
-	if(OFFS_STACK.length > 1)
-		OFFS_STACK = OFFS_STACK.splice(0, OFFS_STACK.length - 1);
-	PREV_INDEX = OFFS_STACK[OFFS_STACK.length - 1];
-	pinIt(el);
-	VT_OFFS = targetIdx;
-	load();
+function navigateBack(){
+	// go to index at the top of stack
+	if(OFFS_STACK.length > 0){
+		var idx = OFFS_STACK[OFFS_STACK.length - 1]; 
+		VT_OFFS = idx;
+		CURR_INDEX = idx;
+		
+		// go to top of page 
+		window.scrollBy(-window.pageXOffset, -window.pageYOffset);
+		
+		// pin the target query
+		pinIt(idx);
+		
+		// pop the stack
+		if(OFFS_STACK.length > 1)
+			OFFS_STACK = OFFS_STACK.splice(0, OFFS_STACK.length - 1);
+	}
 }
 
 function prevMatch(el){

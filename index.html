@@ -25,13 +25,11 @@
 			<td style="min-width: 330px">
 				<div id="active-box">
 					<div id="active-cap-wrap"> 
-						<span id="active-id"></span>
-						<!--
-						<span id="overlay-form">
-							<label for="overlay">Overlay</label>
-							<input type="checkbox" id="overlay" name="overlay" value="Overlay" onclick="toggleOverlay()">
+						<span id="active-id">
+							<span id="back-link" onclick="navigateBack()" index="0"><< Back<span class="tooltip">Return to previous query</span></span>
+							<span id="active-img-title"></span>
+							<span id="query-link" onclick="navigateTo(0)">Query >><span class="tooltip">Query this image</span></span>
 						</span>
-						-->
 					</div>
 					<div id="active-img-wrap">
 						<img id="active-img"/>
