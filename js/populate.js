@@ -129,7 +129,7 @@ function load(){
 		let r_button = document.createElement("img");
 		r_button.classList.add("icon");
 		r_button.classList.add("return-button");
-		r_button.setAttribute("onclick", "returnToStart(" + i + ")");
+		r_button.setAttribute("onclick", "returnToStart(" + (VT_OFFS + i) + ")");
 		r_button.src = "img/double-arrow-left.png";
 		normScroll.appendChild(r_button);
 		let l_arr = document.createElement("img");
@@ -156,14 +156,14 @@ function load(){
 		let rm_button = document.createElement("img");
 		rm_button.classList.add("icon");
 		rm_button.classList.add("return-button");
-		rm_button.setAttribute("onclick", "firstMatch(this, " + i + ")");
+		rm_button.setAttribute("onclick", "firstMatch(" + (VT_OFFS + i) + ")");
 		rm_button.src = "img/double-arrow-left.png";
 		matchScroll.appendChild(rm_button);
 		l_arr = document.createElement("img");
 		l_arr.src = "img/arrow-left.png";
 		l_arr.classList.add("icon");
 		l_arr.classList.add("scroll-left");
-		l_arr.setAttribute("onclick", "prevMatch(this)");
+		l_arr.setAttribute("onclick", "prevMatch(" + (VT_OFFS + i) + ")");
 		matchScroll.appendChild(l_arr);
 		photoI = document.createElement("img");
 		photoI.src = "img/check-small.png";
@@ -173,7 +173,7 @@ function load(){
 		r_arr.src = "img/arrow-right.png";
 		r_arr.classList.add("icon");
 		r_arr.classList.add("scroll-right");
-		r_arr.setAttribute("onclick", "nextMatch(this)");
+		r_arr.setAttribute("onclick", "nextMatch(" + (VT_OFFS + i) + ")");
 		matchScroll.appendChild(r_arr);
 		scrollWrap.appendChild(matchScroll);
 		
@@ -343,9 +343,7 @@ function navigateBack(){
 	}
 }
 
-function prevMatch(el){
-	var query = el.closest(".result-display").getElementsByClassName("query-box")[0];
-	var qIdx = parseInt(query.getAttribute("index"));
+function prevMatch(qIdx){
 	var labelToMatch = RESULTS.labels[qIdx];
 
 	// should loop a maximum of once through the whole matrix
@@ -362,9 +360,7 @@ function prevMatch(el){
 	load();
 }
 
-function nextMatch(el){
-	var query = el.closest(".result-display").getElementsByClassName("query-box")[0];
-	var qIdx = parseInt(query.getAttribute("index"));
+function nextMatch(qIdx){
 	var labelToMatch = RESULTS.labels[qIdx];
 
 	// should loop a maximum of once through the whole matrix
@@ -382,16 +378,14 @@ function nextMatch(el){
 }
 
 function returnToStart(idx){
-	var query = VT_OFFS + idx;
-	MAT_OFFS[query][0] = 0;
+	MAT_OFFS[idx][0] = 0;
 	load();
 }
 
-function firstMatch(el, idx){
+function firstMatch(idx){
 	returnToStart(idx);
-	var query = VT_OFFS + idx;
-	if(RESULTS.labels[query] != RESULTS.labels[RESULTS.matrix[query][0]])
-		nextMatch(el);
+	if(RESULTS.labels[idx] != RESULTS.labels[RESULTS.matrix[idx][0]])
+		nextMatch(idx);
 	else
 		load();
 }
